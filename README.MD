@@ -1,0 +1,1 @@
+Phoca Download Content Plugin is Joomla! CMS extension. Plugin which displays downloadable files of Phoca Download component in article.
