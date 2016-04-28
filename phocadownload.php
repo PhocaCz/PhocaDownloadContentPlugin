@@ -47,13 +47,13 @@ class plgContentPhocaDownload extends JPlugin
 		$regex_all		= '/{phocadownload\s*.*?}/si';
 		$matches 		= array();
 		$count_matches	= preg_match_all($regex_all,$article->text,$matches,PREG_OFFSET_CAPTURE | PREG_PATTERN_ORDER);
-
-		JHTML::stylesheet( 'media/com_phocadownload/css/main/phocadownload.css' );
-		JHTML::stylesheet( 'media/plg_content_phocadownload/css/phocadownload.css' );
 		
 		
 		// Start if count_matches
 		if ($count_matches != 0) {
+			
+			JHTML::stylesheet( 'media/com_phocadownload/css/main/phocadownload.css' );
+			JHTML::stylesheet( 'media/plg_content_phocadownload/css/phocadownload.css' );
 			
 			$l = new PhocaDownloadLayout();
 			
