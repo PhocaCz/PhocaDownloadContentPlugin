@@ -1,0 +1,16 @@
+{
+	"author": "Jan Pavelka (www.phoca.cz)",
+	"authorUrl": "https://www.phoca.cz",
+	"copyright": "Jan Pavelka",
+	"license": "GNU/GPL",
+	"projectName": "PhocaDownloadContentPlugin",
+	"extensionName": "Phoca Download Content Plugin",
+	"projectInitials" : "PD",				  
+	"description": "Phoca Download Content plugin is a Joomla! plugin which displays:\\n- link to Phoca Download categories\\n- link to Phoca Download files\\n- files which can be previewed (e.g. PDF, images)\\n- files which can be played (e.g. MP3, MP4, OGG, OGV)\\n- YouTube videos\\n\\nin article content.",
+	"projectUrl": "https://www.phoca.cz/phocadownload-plugin",
+	"projectDocumentationUrl": "https://www.phoca.cz/documentation/category/51-phoca-download-plugin",
+	"projectDemo" : {
+		"Joomla! 1.5 Demo": "https://www.phoca.cz/demo/"
+	},
+	"projectColor": "#339933"
+}
