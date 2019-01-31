@@ -2,12 +2,12 @@
 <extension type="plugin" group="content" method="upgrade" version="3">
 	<name>plg_content_phocadownload</name>
 	<author>Jan Pavelka (www.phoca.cz)</author>
-	<creationDate>24/01/2019</creationDate>
+	<creationDate>31/01/2019</creationDate>
 	<authorEmail></authorEmail>
 	<authorUrl>https://www.phoca.cz</authorUrl>
 	<copyright>Jan Pavelka</copyright>
 	<license>GNU/GPL</license>
-	<version>3.1.6</version>
+	<version>3.1.7</version>
 	<description>PLG_CONTENT_PHOCADOWNLOAD_DESCRIPTION</description>
 	<projectName>PhocaDownloadContentPlugin</projectName>
 
@@ -18,11 +18,9 @@
 	</media>
 
 	<files>
-		<folder>media</folder>
 		<filename plugin="phocadownload">index.html</filename>
 		<filename plugin="phocadownload">manifest.xml</filename>
 		<filename plugin="phocadownload">phocadownload.php</filename>
-		<filename plugin="phocadownload">phocadownload.xml</filename>
 	</files>
 
 	<languages>
@@ -37,6 +35,30 @@
 		</languages>
 	</administration>
 	
+	<config>
+	
+	<fields name="params" addpath="/administrator/components/com_phocamaps/models/fields">
+		
+		<fieldset name="basic">
+		
+		
+		<field name="icon_size" type="list" default="32" label="PLG_CONTENT_PHOCADOWNLOAD_ICON_SIZE_LABEL" description="PLG_CONTENT_PHOCADOWNLOAD_ICON_SIZE_DESC">
+			<option value="64">64</option>
+			<option value="48">48</option>
+			<option value="32">32</option>
+			<option value="16">16</option>
+		</field>
+		
+		<field name="file_icon_mime" type="list" default="0" label="PLG_CONTENT_PHOCADOWNLOAD_FILE_ICON_MIME_LABEL" description="PLG_CONTENT_PHOCADOWNLOAD_FILE_ICON_MIME_DESC">
+	<option value="0">PLG_CONTENT_PHOCADOWNLOAD_NO</option>
+	<option value="1">PLG_CONTENT_PHOCADOWNLOAD_YES</option>
+</field>
+		
+		
+
+		</fieldset>
+	</fields>
+	</config>
 
 	<updateservers>
 		<server type="extension" name="PLG_CONTENT_PHOCADOWNLOAD"><![CDATA[https://raw.githubusercontent.com/PhocaCz/PhocaDownloadContentPlugin/master/manifest.xml]]></server>

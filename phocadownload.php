@@ -9,21 +9,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.plugin.plugin' );
-if (!JComponentHelper::isEnabled('com_phocadownload', true)) {
 
-	throw new Exception(JText::_('PLG_CONTENT_PHOCADOWNLOAD_PHOCA_DOWNLOAD_ERROR') . ' ' . JText::_('PLG_CONTENT_PHOCADOWNLOAD_PHOCA_DOWNLOAD_NOT_INSTALLED_ON_YOUR_SYSTEM'), 500);
-	return false;
-}
-if (! class_exists('PhocaDownloadLoader')) {
-    require_once( JPATH_ADMINISTRATOR.'/components/com_phocadownload/libraries/loader.php');
-}
-phocadownloadimport('phocadownload.utils.settings');
-phocadownloadimport('phocadownload.path.path');
-phocadownloadimport('phocadownload.path.route');
-phocadownloadimport('phocadownload.file.file');
-phocadownloadimport('phocadownload.utils.utils');
-phocadownloadimport('phocadownload.render.layout');
-phocadownloadimport('phocadownload.ordering.ordering');
 
 
 class plgContentPhocaDownload extends JPlugin
@@ -43,6 +29,29 @@ class plgContentPhocaDownload extends JPlugin
 		$app 	= JFactory::getApplication();
 		$view	= $app->input->get('view');
 		if ($view == 'tag') { return; }
+
+
+
+
+
+		// Include Phoca Download
+		if (!JComponentHelper::isEnabled('com_phocadownload', true)) {
+			echo '<div class="alert alert-danger">Phoca Download Error: Phoca Download component is not installed or not published on your system</div>';
+			return;
+		}
+
+		if (! class_exists('PhocaDownloadLoader')) {
+			require_once( JPATH_ADMINISTRATOR.'/components/com_phocadownload/libraries/loader.php');
+		}
+		phocadownloadimport('phocadownload.utils.settings');
+		phocadownloadimport('phocadownload.path.path');
+		phocadownloadimport('phocadownload.path.route');
+		phocadownloadimport('phocadownload.file.file');
+		phocadownloadimport('phocadownload.utils.utils');
+		phocadownloadimport('phocadownload.render.layout');
+		phocadownloadimport('phocadownload.ordering.ordering');
+
+
 
 		$document		= JFactory::getDocument();
 		$db 			= JFactory::getDBO();

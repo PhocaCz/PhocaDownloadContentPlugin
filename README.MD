@@ -8,7 +8,14 @@
 
 
 
-Phoca Download Content plugin is a Joomla! plugin which displays:\n- link to Phoca Download categories\n- link to Phoca Download files\n- files which can be previewed (e.g. PDF, images)\n- files which can be played (e.g. MP3, MP4, OGG, OGV)\n- YouTube videos\n\nin article content.
+Phoca Download Content plugin is a Joomla! plugin which displays:
+- link to Phoca Download categories
+- link to Phoca Download files
+- files which can be previewed (e.g. PDF, images)
+- files which can be played (e.g. MP3, MP4, OGG, OGV)
+- YouTube videos
+
+ in article content.
 
 
 
@@ -50,7 +57,7 @@ Phoca Download Content plugin is a Joomla! plugin which displays:\n- link to Pho
 
 ## Version
 
-3.1.6
+3.1.7
 
 
 
