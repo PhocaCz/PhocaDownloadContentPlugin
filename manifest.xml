@@ -9,7 +9,7 @@
 - YouTube videos
 
  in article content. ]]></description>
-		<element>plg_content_phocadownload</element>
+		<element>phocadownload</element>
 		<folder>content</folder>
 		<type>plugin</type>
 		<version>3.1.7</version>
@@ -24,6 +24,6 @@
 		<maintainerurl>https://www.phoca.cz/</maintainerurl>
 		<section>Updates</section>
 		<targetplatform name="joomla" version="3.9"/>
-		<client>1</client>
+		<client>0</client>
 	</update>
 </updates>
