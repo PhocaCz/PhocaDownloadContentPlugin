@@ -23,6 +23,8 @@ Phoca Download Content plugin is a Joomla! plugin which displays:
 
 [Phoca Download Content Plugin](https://www.phoca.cz/phocadownload-plugin)
 
+[Phoca Download Info Page](https://www.phoca.cz/project/phocadownload-joomla-download)
+
 
 
 ## Documentation

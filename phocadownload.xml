@@ -2,7 +2,7 @@
 <extension type="plugin" group="content" method="upgrade" version="3">
 	<name>plg_content_phocadownload</name>
 	<author>Jan Pavelka (www.phoca.cz)</author>
-	<creationDate>31/01/2019</creationDate>
+	<creationDate>02/02/2019</creationDate>
 	<authorEmail></authorEmail>
 	<authorUrl>https://www.phoca.cz</authorUrl>
 	<copyright>Jan Pavelka</copyright>
@@ -61,6 +61,6 @@
 	</config>
 
 	<updateservers>
-		<server type="extension" name="PLG_CONTENT_PHOCADOWNLOAD"><![CDATA[https://raw.githubusercontent.com/PhocaCz/PhocaDownloadContentPlugin/master/manifest.xml]]></server>
+		<server type="extension" name="PLG_CONTENT_PHOCADOWNLOAD" priority="1"><![CDATA[https://raw.githubusercontent.com/PhocaCz/PhocaDownloadContentPlugin/master/manifest.xml]]></server>
 	</updateservers>
 </extension>
