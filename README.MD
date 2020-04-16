@@ -33,6 +33,8 @@ Phoca Download Content plugin is a Joomla! plugin which displays:
 
 
 
+
+
 ## Support
 
 [Phoca Forum](https://www.phoca.cz/forum)
@@ -59,7 +61,7 @@ Phoca Download Content plugin is a Joomla! plugin which displays:
 
 ## Version
 
-3.1.7
+3.2.0
 
 
 

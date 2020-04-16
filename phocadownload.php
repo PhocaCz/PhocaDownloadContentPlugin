@@ -50,6 +50,7 @@ class plgContentPhocaDownload extends JPlugin
 		phocadownloadimport('phocadownload.utils.utils');
 		phocadownloadimport('phocadownload.render.layout');
 		phocadownloadimport('phocadownload.ordering.ordering');
+		phocadownloadimport('phocadownload.render.renderfront');
 
 
 
@@ -60,6 +61,7 @@ class plgContentPhocaDownload extends JPlugin
 		$component		= 'com_phocadownload';
 		$paramsC		= JComponentHelper::getParams($component) ;
 		$ordering		= $paramsC->get( 'file_ordering', 1 );
+		$display_bootstrap3_layout		= $paramsC->get( 'display_bootstrap3_layout', 0 );
 
         $lang = JFactory::getLanguage();
         //$lang->load('com_phocadownload.sys');
@@ -84,7 +86,10 @@ class plgContentPhocaDownload extends JPlugin
 			$l = new PhocaDownloadLayout();
 
 			// Start CSS
+			$renderedBootstrapModal = 0;
 			for($i = 0; $i < $count_matches; $i++) {
+
+
 
 				$view				= '';
 				$id					= '';
@@ -102,6 +107,7 @@ class plgContentPhocaDownload extends JPlugin
 				$previewWindow 		= $paramsC->get( 'preview_popup_window', 0 );
 				$playWindow 		= $paramsC->get( 'play_popup_window', 0 );
 				$limit				= 5;
+				//$ordering set in header;
 
 
 				// Get plugin parameters
@@ -138,6 +144,7 @@ class plgContentPhocaDownload extends JPlugin
 					else if($values[0]=='limit')			{$limit				= (int)$values[1];}
 
 					else if($values[0]=='url')				{$url				= $values[1];}
+					else if($values[0]=='ordering')			{$ordering			= (int)$values[1];}
 
 				}
 
@@ -496,17 +503,38 @@ class plgContentPhocaDownload extends JPlugin
 										$buttonPl->set('options', "window.open(this.href,'win2','width=".$windowWidthPl.",height=".$windowHeightPl.",scrollbars=yes,menubar=no,resizable=yes'); return false;");
 										$buttonPl->set('optionsmp3', "window.open(this.href,'win2','width=".$windowWidthPl.",height=".$windowHeightPlMP3.",scrollbars=yes,menubar=no,resizable=yes'); return false;");
 									} else {
-										JHTML::_('behavior.modal', 'a.modal-button');
-										$document->addCustomTag( "<style type=\"text/css\"> \n"
-									." #sbox-window.phocadownloadplaywindow   {background-color:#fff;padding:2px} \n"
-									." #sbox-overlay.phocadownloadplayoverlay  {background-color:#000;} \n"
-									." </style> \n");
-										$buttonPl = new JObject();
-										$buttonPl->set('name', 'image');
-										$buttonPl->set('modal', true);
-										$buttonPl->set('methodname', 'modal-button');
-										$buttonPl->set('options', "{handler: 'iframe', size: {x: ".$windowWidthPl.", y: ".$windowHeightPl."}, overlayOpacity: 0.7, classWindow: 'phocadownloadplaywindow', classOverlay: 'phocadownloadplayoverlay'}");
-										$buttonPl->set('optionsmp3', "{handler: 'iframe', size: {x: ".$windowWidthPl.", y: ".$windowHeightPlMP3."}, overlayOpacity: 0.7, classWindow: 'phocadownloadplaywindow', classOverlay: 'phocadownloadplayoverlay'}");
+
+										if ($display_bootstrap3_layout > 0) {
+
+											// BOOTSTRAP
+											$buttonPl = new JObject();
+											$buttonPl->set('name', 'image');
+											$buttonPl->set('modal', true);
+											$buttonPl->set('methodname', 'modal-button');
+											$buttonPl->set('options', ' data-type="document" data-width-dialog="'.$windowWidthPl.'" data-height-dialog="'.$windowHeightPl.'"');
+											$buttonPl->set('optionsmp3', ' data-type="document" data-width-dialog="'.$windowWidthPl.'" data-height-dialog="'.($windowHeightPlMP3 + 50) .'"');
+											$buttonPl->set('optionsimg', 'data-type="image"');
+											$bootstrapModal = PhocaDownloadRenderFront::bootstrapModalHtml('phModalPlay' , JText::_('COM_PHOCADOWNLOAD_PLAY'));
+
+											if ($renderedBootstrapModal == 0) {
+												PhocaDownloadRenderFront::renderBootstrapModalJs('.pd-modal-button');
+												$renderedBootstrapModal = 1;
+											}
+
+										} else {
+											JHTML::_('behavior.modal', 'a.modal-button');
+											$document->addCustomTag( "<style type=\"text/css\"> \n"
+										." #sbox-window.phocadownloadplaywindow   {background-color:#fff;padding:2px} \n"
+										." #sbox-overlay.phocadownloadplayoverlay  {background-color:#000;} \n"
+										." </style> \n");
+											$buttonPl = new JObject();
+											$buttonPl->set('name', 'image');
+											$buttonPl->set('modal', true);
+											$buttonPl->set('methodname', 'modal-button');
+											$buttonPl->set('options', "{handler: 'iframe', size: {x: ".$windowWidthPl.", y: ".$windowHeightPl."}, overlayOpacity: 0.7, classWindow: 'phocadownloadplaywindow', classOverlay: 'phocadownloadplayoverlay'}");
+											$buttonPl->set('optionsmp3', "{handler: 'iframe', size: {x: ".$windowWidthPl.", y: ".$windowHeightPlMP3."}, overlayOpacity: 0.7, classWindow: 'phocadownloadplaywindow', classOverlay: 'phocadownloadplayoverlay'}");
+
+										}
 									}
 									// - - - - - - - - - - - - - - -
 
@@ -522,8 +550,10 @@ class plgContentPhocaDownload extends JPlugin
 										if ($canPlay) {
 											// Special height for music only
 											$buttonPlOptions = $buttonPl->options;
+
 											if ($fileExt == 'mp3') {
 												$buttonPlOptions = $buttonPl->optionsmp3;
+
 											}
 											/*if ($text == '') {
 												$text = JText::_('PLG_CONTENT_PHOCADOWNLOAD_PLAY');
@@ -549,7 +579,17 @@ class plgContentPhocaDownload extends JPlugin
 											if ($playWindow == 1) {
 												$output .= '<a  href="'.$playLink.'" onclick="'. $buttonPlOptions.'" >'. $textOutput.'</a>';
 											} else {
-												$output .= '<a class="modal-button" href="'.$playLink.'" rel="'. $buttonPlOptions.'" >'. $textOutput.'</a>';
+
+												if ($display_bootstrap3_layout > 0) {
+													// Bootstrap
+													$output .= '<a class="pd-modal-button" data-toggle="modal" data-target="#phModalPlay" href="#" data-href="' . $playLink . '" ' . $buttonPlOptions . ' >'. $textOutput.'</a>';
+													if (isset($bootstrapModal) && $bootstrapModal != '') {
+														$output .= $bootstrapModal;
+													}
+												} else {
+													$output .= '<a class="modal-button" href="'.$playLink.'" rel="'. $buttonPlOptions.'" >'. $textOutput.'</a>';
+												}
+
 											}
 											$output .= '</div></div>';
 										}
