@@ -9,7 +9,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.plugin.plugin' );
-
+use Joomla\CMS\HTML\HTMLHelper;
 
 
 class plgContentPhocaDownload extends JPlugin
@@ -80,8 +80,8 @@ class plgContentPhocaDownload extends JPlugin
 		// Start if count_matches
 		if ($count_matches != 0) {
 
-			JHTML::stylesheet( 'media/com_phocadownload/css/main/phocadownload.css' );
-			JHTML::stylesheet( 'media/plg_content_phocadownload/css/phocadownload.css' );
+			HTMLHelper::_('stylesheet', 'media/com_phocadownload/css/main/phocadownload.css', array('version' => 'auto'));
+			HTMLHelper::_('stylesheet', 'media/plg_content_phocadownload/css/phocadownload.css', array('version' => 'auto'));
 
 			$l = new PhocaDownloadLayout();
 
@@ -395,7 +395,7 @@ class plgContentPhocaDownload extends JPlugin
 										$canPlay	= PhocaDownloadFile::canPlay($item->filename_play);
 										if ($canPlay) {
 											$tmpl['playfilewithpath']	= $filePath . $item->filename_play;
-											$tmpl['playerpath']			= JURI::base().'components/com_phocadownload/assets/flowplayer/';
+											$tmpl['playerpath']			= JURI::base().'media/com_phocadownload/js/flowplayer/';
 										} else {
 											$output .= JText::_('PLG_CONTENT_PHOCADOWNLOAD_NO_CORRECT_FILE_FOR_PLAYING_FOUND');
 											$play = 0;
@@ -522,7 +522,7 @@ class plgContentPhocaDownload extends JPlugin
 											}
 
 										} else {
-											JHTML::_('behavior.modal', 'a.modal-button');
+											Joomla\CMS\HTML\HTMLHelper::_('behavior.modal', 'a.modal-button');
 											$document->addCustomTag( "<style type=\"text/css\"> \n"
 										." #sbox-window.phocadownloadplaywindow   {background-color:#fff;padding:2px} \n"
 										." #sbox-overlay.phocadownloadplayoverlay  {background-color:#000;} \n"
@@ -620,7 +620,7 @@ class plgContentPhocaDownload extends JPlugin
 												$buttonPr->set('methodname', 'js-button');
 												$buttonPr->set('options', "window.open(this.href,'win2','width=".$windowWidthPr.",height=".$windowHeightPr.",scrollbars=yes,menubar=no,resizable=yes'); return false;");
 											} else {
-												JHTML::_('behavior.modal', 'a.modal-button');
+												Joomla\CMS\HTML\HTMLHelper::_('behavior.modal', 'a.modal-button');
 												$document->addCustomTag( "<style type=\"text/css\"> \n"
 											." #sbox-window.phocadownloadpreviewwindow   {background-color:#fff;padding:2px} \n"
 											." #sbox-overlay.phocadownloadpreviewoverlay  {background-color:#000;} \n"
