@@ -2,7 +2,7 @@
 
 
 
-![Phoca Download Content Plugin](https://github.com/PhocaCz/PhocaDownloadContentPlugin/blob/master/phocadownload.png)
+![Phoca Download Content Plugin](https://github.com/PhocaCz/PhocaDownloadContentPlugin/blob/master/phocadownload.png?raw=true)
 
 # Phoca Download Content Plugin
 
@@ -59,9 +59,13 @@ Phoca Download Content plugin is a Joomla! plugin which displays:
 
 
 
-## Version
+## Version (Joomla! 3.x)
 
 3.2.1
+
+## Version (Joomla! 4.x)
+
+4.0.2
 
 
 

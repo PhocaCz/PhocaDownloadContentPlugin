@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="plugin" group="content" method="upgrade" version="3.9">
+<extension type="plugin" group="content" method="upgrade" version="4.0">
 	<name>plg_content_phocadownload</name>
 	<author>Jan Pavelka (www.phoca.cz)</author>
-	<creationDate>22/10/2020</creationDate>
+	<creationDate>30/05/2022</creationDate>
 	<authorEmail></authorEmail>
 	<authorUrl>https://www.phoca.cz</authorUrl>
 	<copyright>Jan Pavelka</copyright>
 	<license>GNU/GPL</license>
-	<version>3.2.1</version>
+	<version>4.0.2</version>
 	<description>PLG_CONTENT_PHOCADOWNLOAD_DESCRIPTION</description>
 	<projectName>PhocaDownloadContentPlugin</projectName>
 
@@ -19,8 +19,8 @@
 
 	<files>
 		<filename plugin="phocadownload">index.html</filename>
-		<filename plugin="phocadownload">manifest.xml</filename>
 		<filename plugin="phocadownload">phocadownload.php</filename>
+		<filename plugin="phocadownload">manifest.xml</filename>
 	</files>
 
 	<languages>

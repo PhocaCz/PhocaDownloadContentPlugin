@@ -9,7 +9,12 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.plugin.plugin' );
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 
 class plgContentPhocaDownload extends JPlugin
@@ -26,7 +31,7 @@ class plgContentPhocaDownload extends JPlugin
 			return true;
 		}
 
-		$app 	= JFactory::getApplication();
+		$app 	= Factory::getApplication();
 		$view	= $app->input->get('view');
 		if ($view == 'tag') { return; }
 
@@ -35,7 +40,7 @@ class plgContentPhocaDownload extends JPlugin
 
 
 		// Include Phoca Download
-		if (!JComponentHelper::isEnabled('com_phocadownload', true)) {
+		if (!ComponentHelper::isEnabled('com_phocadownload', true)) {
 			echo '<div class="alert alert-danger">Phoca Download Error: Phoca Download component is not installed or not published on your system</div>';
 			return;
 		}
@@ -54,16 +59,16 @@ class plgContentPhocaDownload extends JPlugin
 
 
 
-		$document		= JFactory::getDocument();
-		$db 			= JFactory::getDBO();
+		$document		= Factory::getDocument();
+		$db 			= Factory::getDBO();
 		$iSize			= $this->params->get('icon_size', 32);
 		$iMime			= $this->params->get('file_icon_mime', 0);
 		$component		= 'com_phocadownload';
-		$paramsC		= JComponentHelper::getParams($component) ;
+		$paramsC		= ComponentHelper::getParams($component) ;
 		$ordering		= $paramsC->get( 'file_ordering', 1 );
 		$display_bootstrap3_layout		= $paramsC->get( 'display_bootstrap3_layout', 0 );
 
-        $lang = JFactory::getLanguage();
+        $lang = Factory::getLanguage();
         //$lang->load('com_phocadownload.sys');
         $lang->load('com_phocadownload');
 
@@ -186,12 +191,12 @@ class plgContentPhocaDownload extends JPlugin
 						if ($text !='') {
 							$textOutput = $text;
 						} else {
-							$textOutput = JText::_('PLG_CONTENT_PHOCADOWNLOAD_DOWNLOAD_SECTIONS');
+							$textOutput = Text::_('PLG_CONTENT_PHOCADOWNLOAD_DOWNLOAD_SECTIONS');
 						}
 
 						$link = PhocaDownloadRoute::getSectionsRoute();
 
-						$output .= '<div class="phocadownloadsections'.(int)$iSize.'"><a href="'. JRoute::_($link).'" '.$targetOutput.'>'. $textOutput.'</a></div>';
+						$output .= '<div class="phocadownloadsections'.(int)$iSize.'"><a href="'. Route::_($link).'" '.$targetOutput.'>'. $textOutput.'</a></div>';
 					break;
 
 					// - - - - - - - - - - - - - - - -
@@ -214,12 +219,12 @@ class plgContentPhocaDownload extends JPlugin
 								} else if (isset($item->title) && $item->title != '') {
 									$textOutput = $item->title;
 								} else {
-									$textOutput = JText::_('PLG_CONTENT_PHOCADOWNLOAD_DOWNLOAD_SECTION');
+									$textOutput = Text::_('PLG_CONTENT_PHOCADOWNLOAD_DOWNLOAD_SECTION');
 								}
 								$link = PhocaDownloadRoute::getSectionRoute($item->id, $item->alias);
 								// 'index.php?option=com_phocadownload&view=section&id='.$item->slug.'&Itemid='. $itemId
 
-								$output .= '<div class="phocadownloadsection'.(int)$iSize.'"><a href="'. JRoute::_($link).'" '.$targetOutput.'>'. $textOutput.'</a></div>';
+								$output .= '<div class="phocadownloadsection'.(int)$iSize.'"><a href="'. Route::_($link).'" '.$targetOutput.'>'. $textOutput.'</a></div>';
 							}
 						}
 					break;
@@ -232,12 +237,12 @@ class plgContentPhocaDownload extends JPlugin
 						if ($text !='') {
 							$textOutput = $text;
 						} else {
-							$textOutput = JText::_('PLG_CONTENT_PHOCADOWNLOAD_DOWNLOAD_CATEGORIES');
+							$textOutput = Text::_('PLG_CONTENT_PHOCADOWNLOAD_DOWNLOAD_CATEGORIES');
 						}
 
 						$link = PhocaDownloadRoute::getCategoriesRoute();
 
-						$output .= '<div class="phocadownloadcategories'.(int)$iSize.'"><a href="'. JRoute::_($link).'" '.$targetOutput.'>'. $textOutput.'</a></div>';
+						$output .= '<div class="phocadownloadcategories'.(int)$iSize.'"><a href="'. Route::_($link).'" '.$targetOutput.'>'. $textOutput.'</a></div>';
 					break;
 
 					// - - - - - - - - - - - - - - - -
@@ -260,11 +265,11 @@ class plgContentPhocaDownload extends JPlugin
 								} else if (isset($item->title) && $item->title != '') {
 									$textOutput = $item->title;
 								} else {
-									$textOutput = JText::_('PLG_CONTENT_PHOCADOWNLOAD_DOWNLOAD_CATEGORY');
+									$textOutput = Text::_('PLG_CONTENT_PHOCADOWNLOAD_DOWNLOAD_CATEGORY');
 								}
 								$link = PhocaDownloadRoute::getCategoryRoute($item->id, $item->alias);
 								//'index.php?option=com_phocadownload&view=category&id='.$item->slug.'&Itemid='. $itemId
-								$output .= '<div class="phocadownloadcategory'.(int)$iSize.'"><a href="'. JRoute::_($link).'" '.$targetOutput.'>'. $textOutput.'</a></div>';
+								$output .= '<div class="phocadownloadcategory'.(int)$iSize.'"><a href="'. Route::_($link).'" '.$targetOutput.'>'. $textOutput.'</a></div>';
 							}
 
 						}
@@ -309,16 +314,16 @@ class plgContentPhocaDownload extends JPlugin
 									} else if (isset($item->title) && $item->title != '') {
 										$textOutput = $item->title;
 									} else {
-										$textOutput = JText::_('PLG_CONTENT_PHOCADOWNLOAD_DOWNLOAD_FILE');
+										$textOutput = Text::_('PLG_CONTENT_PHOCADOWNLOAD_DOWNLOAD_FILE');
 									}
 
 									if ((isset($item->confirm_license) && $item->confirm_license > 0) || $fileView == 1) {
 										$link = PhocaDownloadRoute::getFileRoute($item->id,$item->catid,$item->alias, $item->catalias,0, 'file');
 
 										if ($iMime == 1) {
-											$output .= '<div class="pd-filename phocadownloadfilelistitem phoca-dl-file-box-mod">'.  $imageFileName['filenamethumb']. '<div class="pd-document'.(int)$iSize.'" '. $imageFileName['filenamestyle'].'><a href="'. JRoute::_($link).'" '. $targetOutput.'>'. $textOutput.'</a></div></div>';
+											$output .= '<div class="pd-filename phocadownloadfilelistitem phoca-dl-file-box-mod">'.  $imageFileName['filenamethumb']. '<div class="pd-document'.(int)$iSize.'" '. $imageFileName['filenamestyle'].'><a href="'. Route::_($link).'" '. $targetOutput.'>'. $textOutput.'</a></div></div>';
 										} else {
-											$output .= '<div class="phocadownloadfilelist'.(int)$iSize.'"><a href="'. JRoute::_($link).'" '.$targetOutput.'>'. $textOutput.'</a></div>';
+											$output .= '<div class="phocadownloadfilelist'.(int)$iSize.'"><a href="'. Route::_($link).'" '.$targetOutput.'>'. $textOutput.'</a></div>';
 										}
 
 									} else {
@@ -329,9 +334,9 @@ class plgContentPhocaDownload extends JPlugin
 										}
 
 										if ($iMime == 1) {
-											$output .= '<div class="pd-filename phocadownloadfilelistitem phoca-dl-file-box-mod">'.  $imageFileName['filenamethumb']. '<div class="pd-document'.(int)$iSize.'" '. $imageFileName['filenamestyle'].'><a href="'. JRoute::_($link).'" '. $targetOutput.'>'. $textOutput.'</a></div></div>';
+											$output .= '<div class="pd-filename phocadownloadfilelistitem phoca-dl-file-box-mod">'.  $imageFileName['filenamethumb']. '<div class="pd-document'.(int)$iSize.'" '. $imageFileName['filenamestyle'].'><a href="'. Route::_($link).'" '. $targetOutput.'>'. $textOutput.'</a></div></div>';
 										} else {
-											$output .= '<div class="phocadownloadfilelist'.(int)$iSize.'"><a href="'. JRoute::_($link).'" '.$targetOutput.'>'. $textOutput.'</a></div>';
+											$output .= '<div class="phocadownloadfilelist'.(int)$iSize.'"><a href="'. Route::_($link).'" '.$targetOutput.'>'. $textOutput.'</a></div>';
 										}
 
 									}
@@ -373,9 +378,9 @@ class plgContentPhocaDownload extends JPlugin
 									$textOutput = $item->title;
 								} else {
 									if ($view == 'fileplay') {
-										$textOutput = JText::_('PLG_CONTENT_PHOCADOWNLOAD_PLAY_FILE');
+										$textOutput = Text::_('PLG_CONTENT_PHOCADOWNLOAD_PLAY_FILE');
 									} else {
-										$textOutput = JText::_('PLG_CONTENT_PHOCADOWNLOAD_DOWNLOAD_FILE');
+										$textOutput = Text::_('PLG_CONTENT_PHOCADOWNLOAD_DOWNLOAD_FILE');
 									}
 								}
 
@@ -397,11 +402,11 @@ class plgContentPhocaDownload extends JPlugin
 											$tmpl['playfilewithpath']	= $filePath . $item->filename_play;
 											$tmpl['playerpath']			= JURI::base().'media/com_phocadownload/js/flowplayer/';
 										} else {
-											$output .= JText::_('PLG_CONTENT_PHOCADOWNLOAD_NO_CORRECT_FILE_FOR_PLAYING_FOUND');
+											$output .= Text::_('PLG_CONTENT_PHOCADOWNLOAD_NO_CORRECT_FILE_FOR_PLAYING_FOUND');
 											$play = 0;
 										}
 									} else {
-										$output .= JText::_('PLG_CONTENT_PHOCADOWNLOAD_NO_FILE_FOR_PLAYING_FOUND');
+										$output .= Text::_('PLG_CONTENT_PHOCADOWNLOAD_NO_FILE_FOR_PLAYING_FOUND');
 										$play = 0;
 									}
 
@@ -410,22 +415,22 @@ class plgContentPhocaDownload extends JPlugin
                                         if ($fileExt == 'mp3') {
                                             $output .=  '<audio width="'.$playerwidth.'" height="'.$playerheight.'" style="margin-top: 10px;" controls>';
                                             $output .=  '<source src="'.$tmpl['playfilewithpath'].'" type="video/mp4">';
-                                            $output .=  JText::_('COM_PHOCADOWNLOAD_BROWSER_DOES_NOT_SUPPORT_AUDIO_VIDEO_TAG');
+                                            $output .=  Text::_('COM_PHOCADOWNLOAD_BROWSER_DOES_NOT_SUPPORT_AUDIO_VIDEO_TAG');
                                             $output .=  '</audio>'. "\n";
                                         } else if ($fileExt == 'mp4') {
                                             $output .=  '<video width="'.$playerwidth.'" height="'.$playerheight.'" style="margin-top: 10px;" controls>';
                                             $output .=  '<source src="'.$tmpl['playfilewithpath'].'" type="video/mp4">';
-                                            $output .=  JText::_('COM_PHOCADOWNLOAD_BROWSER_DOES_NOT_SUPPORT_AUDIO_VIDEO_TAG');
+                                            $output .=  Text::_('COM_PHOCADOWNLOAD_BROWSER_DOES_NOT_SUPPORT_AUDIO_VIDEO_TAG');
                                             $output .=  '</video>'. "\n";
                                         } else if ($fileExt == 'ogg') {
                                             $output .=  '<audio width="'.$playerwidth.'" height="'.$playerheight.'" style="margin-top: 10px;" controls>';
                                             $output .=  '<source src="'.$tmpl['playfilewithpath'].'" type="audio/ogg">';
-                                            $output .=  JText::_('COM_PHOCADOWNLOAD_BROWSER_DOES_NOT_SUPPORT_AUDIO_VIDEO_TAG');
+                                            $output .=  Text::_('COM_PHOCADOWNLOAD_BROWSER_DOES_NOT_SUPPORT_AUDIO_VIDEO_TAG');
                                             $output .=  '</audio>'. "\n";
                                         } else if ($fileExt == 'ogv') {
                                             $output .=  '<video width="'.$playerwidth.'" height="'.$playerheight.'" style="margin-top: 10px;" controls>';
                                             $output .=  '<source src="'.$tmpl['playfilewithpath'].'" type="video/ogg">';
-                                            $output .=  JText::_('COM_PHOCADOWNLOAD_BROWSER_DOES_NOT_SUPPORT_AUDIO_VIDEO_TAG');
+                                            $output .=  Text::_('COM_PHOCADOWNLOAD_BROWSER_DOES_NOT_SUPPORT_AUDIO_VIDEO_TAG');
                                             $output .=  '</video>'. "\n";
                                         }
 
@@ -498,7 +503,7 @@ class plgContentPhocaDownload extends JPlugin
 									$windowHeightPlMP3 			= (int)$playerheightmp3 + 30;
 									//$playWindow 	= $paramsC->get( 'play_popup_window', 0 );
 									if ($playWindow == 1) {
-										$buttonPl = new JObject();
+										$buttonPl = new stdClass();
 										$buttonPl->set('methodname', 'js-button');
 										$buttonPl->set('options', "window.open(this.href,'win2','width=".$windowWidthPl.",height=".$windowHeightPl.",scrollbars=yes,menubar=no,resizable=yes'); return false;");
 										$buttonPl->set('optionsmp3', "window.open(this.href,'win2','width=".$windowWidthPl.",height=".$windowHeightPlMP3.",scrollbars=yes,menubar=no,resizable=yes'); return false;");
@@ -507,14 +512,14 @@ class plgContentPhocaDownload extends JPlugin
 										if ($display_bootstrap3_layout > 0) {
 
 											// BOOTSTRAP
-											$buttonPl = new JObject();
+											$buttonPl = new stdClass();
 											$buttonPl->set('name', 'image');
 											$buttonPl->set('modal', true);
 											$buttonPl->set('methodname', 'modal-button');
 											$buttonPl->set('options', ' data-type="document" data-width-dialog="'.$windowWidthPl.'" data-height-dialog="'.$windowHeightPl.'"');
 											$buttonPl->set('optionsmp3', ' data-type="document" data-width-dialog="'.$windowWidthPl.'" data-height-dialog="'.($windowHeightPlMP3 + 50) .'"');
 											$buttonPl->set('optionsimg', 'data-type="image"');
-											$bootstrapModal = PhocaDownloadRenderFront::bootstrapModalHtml('phModalPlay' , JText::_('COM_PHOCADOWNLOAD_PLAY'));
+											$bootstrapModal = PhocaDownloadRenderFront::bootstrapModalHtml('phModalPlay' , Text::_('COM_PHOCADOWNLOAD_PLAY'));
 
 											if ($renderedBootstrapModal == 0) {
 												PhocaDownloadRenderFront::renderBootstrapModalJs('.pd-modal-button');
@@ -522,12 +527,12 @@ class plgContentPhocaDownload extends JPlugin
 											}
 
 										} else {
-											Joomla\CMS\HTML\HTMLHelper::_('behavior.modal', 'a.modal-button');
+											HTMLHelper::_('behavior.modal', 'a.modal-button');
 											$document->addCustomTag( "<style type=\"text/css\"> \n"
 										." #sbox-window.phocadownloadplaywindow   {background-color:#fff;padding:2px} \n"
 										." #sbox-overlay.phocadownloadplayoverlay  {background-color:#000;} \n"
 										." </style> \n");
-											$buttonPl = new JObject();
+											$buttonPl = new stdClass();
 											$buttonPl->set('name', 'image');
 											$buttonPl->set('modal', true);
 											$buttonPl->set('methodname', 'modal-button');
@@ -556,7 +561,7 @@ class plgContentPhocaDownload extends JPlugin
 
 											}
 											/*if ($text == '') {
-												$text = JText::_('PLG_CONTENT_PHOCADOWNLOAD_PLAY');
+												$text = Text::_('PLG_CONTENT_PHOCADOWNLOAD_PLAY');
 											}*/
 
 											if ($text !='') {
@@ -564,10 +569,10 @@ class plgContentPhocaDownload extends JPlugin
 											//} else if (isset($item->title) && $item->title != '') {
 											//	$textOutput = $item->title;
 											} else {
-												$textOutput = JText::_('PLG_CONTENT_PHOCADOWNLOAD_PLAY');
+												$textOutput = Text::_('PLG_CONTENT_PHOCADOWNLOAD_PLAY');
 											}
 
-											$playLink = JRoute::_(PhocaDownloadRoute::getFileRoute($item->id,$item->catid,$item->alias, $item->catalias,0, 'play'));
+											$playLink = Route::_(PhocaDownloadRoute::getFileRoute($item->id,$item->catid,$item->alias, $item->catalias,0, 'play'));
 
 
 											if ($iMime == 1) {
@@ -594,7 +599,7 @@ class plgContentPhocaDownload extends JPlugin
 											$output .= '</div></div>';
 										}
 									} else {
-										$output .= JText::_('PLG_CONTENT_PHOCADOWNLOAD_NO_FILE_FOR_PLAYING_FOUND');
+										$output .= Text::_('PLG_CONTENT_PHOCADOWNLOAD_NO_FILE_FOR_PLAYING_FOUND');
 									}
 
 
@@ -616,16 +621,16 @@ class plgContentPhocaDownload extends JPlugin
 											$windowWidthPr 	= (int)$previewwidth + 20;
 											$windowHeightPr = (int)$previewheight + 20;
 											if ($previewWindow == 1) {
-												$buttonPr = new JObject();
+												$buttonPr = new stdClass();
 												$buttonPr->set('methodname', 'js-button');
 												$buttonPr->set('options', "window.open(this.href,'win2','width=".$windowWidthPr.",height=".$windowHeightPr.",scrollbars=yes,menubar=no,resizable=yes'); return false;");
 											} else {
-												Joomla\CMS\HTML\HTMLHelper::_('behavior.modal', 'a.modal-button');
+												HTMLHelper::_('behavior.modal', 'a.modal-button');
 												$document->addCustomTag( "<style type=\"text/css\"> \n"
 											." #sbox-window.phocadownloadpreviewwindow   {background-color:#fff;padding:2px} \n"
 											." #sbox-overlay.phocadownloadpreviewoverlay  {background-color:#000;} \n"
 											." </style> \n");
-												$buttonPr = new JObject();
+												$buttonPr = new stdClass();
 												$buttonPr->set('name', 'image');
 												$buttonPr->set('modal', true);
 												$buttonPr->set('methodname', 'modal-button');
@@ -637,7 +642,7 @@ class plgContentPhocaDownload extends JPlugin
 
 
 											/*if ($text == '') {
-												$text = JText::_('PLG_CONTENT_PHOCADOWNLOAD_PREVIEW');
+												$text = Text::_('PLG_CONTENT_PHOCADOWNLOAD_PREVIEW');
 											}*/
 
 											if ($text !='') {
@@ -645,7 +650,7 @@ class plgContentPhocaDownload extends JPlugin
 											//} else if (isset($item->title) && $item->title != '') {
 											//	$textOutput = $item->title;
 											} else {
-												$textOutput = JText::_('PLG_CONTENT_PHOCADOWNLOAD_PREVIEW');
+												$textOutput = Text::_('PLG_CONTENT_PHOCADOWNLOAD_PREVIEW');
 											}
 											if ($iMime == 1) {
 												$output .= '<div class="pd-filename phocadownloadfile phoca-dl-file-box-mod">'.  $imageFileName['filenamethumb']. '<div class="pd-document'.(int)$iSize.'" '. $imageFileName['filenamestyle'].'>';
@@ -667,7 +672,7 @@ class plgContentPhocaDownload extends JPlugin
 											$output	.= '</div></div>';
 										}
 									} else {
-										$output .= JText::_('PLG_CONTENT_PHOCADOWNLOAD_NO_FILE_FOR_PREVIEWING_FOUND');
+										$output .= Text::_('PLG_CONTENT_PHOCADOWNLOAD_NO_FILE_FOR_PREVIEWING_FOUND');
 									}
 
 								} else {
@@ -676,9 +681,9 @@ class plgContentPhocaDownload extends JPlugin
 										//'index.php?option=com_phocadownload&view=file&id='.$item->slug.'&Itemid='.$itemId
 
 										if ($iMime == 1) {
-											$output .= '<div class="pd-filename phocadownloadfile phoca-dl-file-box-mod">'.  $imageFileName['filenamethumb']. '<div class="pd-document'.(int)$iSize.'" '. $imageFileName['filenamestyle'].'><a href="'. JRoute::_($link).'" '. $targetOutput.'>'. $textOutput.'</a></div></div>';
+											$output .= '<div class="pd-filename phocadownloadfile phoca-dl-file-box-mod">'.  $imageFileName['filenamethumb']. '<div class="pd-document'.(int)$iSize.'" '. $imageFileName['filenamestyle'].'><a href="'. Route::_($link).'" '. $targetOutput.'>'. $textOutput.'</a></div></div>';
 										} else {
-											$output .= '<div class="phocadownloadfile'.(int)$iSize.'"><a href="'. JRoute::_($link).'" '.$targetOutput.'>'. $textOutput.'</a></div>';
+											$output .= '<div class="phocadownloadfile'.(int)$iSize.'"><a href="'. Route::_($link).'" '.$targetOutput.'>'. $textOutput.'</a></div>';
 										}
 
 									} else {
@@ -692,9 +697,9 @@ class plgContentPhocaDownload extends JPlugin
 										//'index.php?option=com_phocadownload&view=category&id='. $item->catslug. '&download='. $item->slug. '&Itemid=' . $itemId
 
 										if ($iMime == 1) {
-											$output .= '<div class="pd-filename phocadownloadfile phoca-dl-file-box-mod">'.  $imageFileName['filenamethumb']. '<div class="pd-document'.(int)$iSize.'" '. $imageFileName['filenamestyle'].'><a href="'. JRoute::_($link).'" '. $targetOutput.'>'. $textOutput.'</a></div></div>';
+											$output .= '<div class="pd-filename phocadownloadfile phoca-dl-file-box-mod">'.  $imageFileName['filenamethumb']. '<div class="pd-document'.(int)$iSize.'" '. $imageFileName['filenamestyle'].'><a href="'. Route::_($link).'" '. $targetOutput.'>'. $textOutput.'</a></div></div>';
 										} else {
-											$output .= '<div class="phocadownloadfile'.(int)$iSize.'"><a href="'. JRoute::_($link).'" '.$targetOutput.'>'. $textOutput.'</a></div>';
+											$output .= '<div class="phocadownloadfile'.(int)$iSize.'"><a href="'. Route::_($link).'" '.$targetOutput.'>'. $textOutput.'</a></div>';
 										}
 									}
 								}
@@ -713,7 +718,7 @@ class plgContentPhocaDownload extends JPlugin
 							$pdVideo 	= $l->displayVideo($url, 0, $youtubewidth, $youtubeheight);
 							$output		.= $pdVideo;
 						} else {
-							$output .= JText::_('PLG_CONTENT_PHOCADOWNLOAD_WRONG_YOUTUBE_URL');
+							$output .= Text::_('PLG_CONTENT_PHOCADOWNLOAD_WRONG_YOUTUBE_URL');
 						}
 					break;
 
