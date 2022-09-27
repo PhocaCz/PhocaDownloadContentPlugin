@@ -65,7 +65,7 @@ Phoca Download Content plugin is a Joomla! plugin which displays:
 
 ## Version (Joomla! 4.x)
 
-4.0.2
+4.0.4
 
 
 
