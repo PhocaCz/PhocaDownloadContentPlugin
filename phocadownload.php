@@ -15,15 +15,33 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 
-class plgContentPhocaDownload extends JPlugin
+class plgContentPhocaDownload extends CMSPlugin
 {
+	public $_plugin_number = 0;
+    public $_plugin_number_category_view = 0;
+	public $_rendered_bs_modal = 0;
+
+
 	public function __construct(& $subject, $config) {
 		parent::__construct($subject, $config);
 		$this->loadLanguage();
 	}
+
+	public function _setPluginNumber() {
+        $this->_plugin_number = (int)$this->_plugin_number + 1;
+    }
+
+    public function _setPluginNumberCategoryView() {
+        $this->_plugin_number_category_view = (int)$this->_plugin_number_category_view + 1;
+    }
+	public function _setRenderedBsModal() {
+        $this->_rendered_bs_modal = (int)$this->_rendered_bs_modal + 1;
+    }
 
 	public function onContentPrepare($context, &$article, &$params, $page = 0) {
 
@@ -95,7 +113,7 @@ class plgContentPhocaDownload extends JPlugin
 			$renderedBootstrapModal = 0;
 			for($i = 0; $i < $count_matches; $i++) {
 
-
+				$this->_setPluginNumber();
 
 				$view				= '';
 				$id					= '';
@@ -395,13 +413,13 @@ class plgContentPhocaDownload extends JPlugin
 									$fileExt	= '';
 									$filePath	= PhocaDownloadPath::getPathSet('fileplay');
 
-									$filePath	= str_replace ( '../', JURI::base(true).'/', $filePath['orig_rel_ds']);
+									$filePath	= str_replace ( '../', Uri::base(true).'/', $filePath['orig_rel_ds']);
 									if (isset($item->filename_play) && $item->filename_play != '') {
 										$fileExt = PhocaDownloadFile::getExtension($item->filename_play);
 										$canPlay	= PhocaDownloadFile::canPlay($item->filename_play);
 										if ($canPlay) {
 											$tmpl['playfilewithpath']	= $filePath . $item->filename_play;
-											$tmpl['playerpath']			= JURI::base().'media/com_phocadownload/js/flowplayer/';
+											$tmpl['playerpath']			= Uri::base().'media/com_phocadownload/js/flowplayer/';
 										} else {
 											$output .= Text::_('PLG_CONTENT_PHOCADOWNLOAD_NO_CORRECT_FILE_FOR_PLAYING_FOUND');
 											$play = 0;
@@ -531,7 +549,7 @@ class plgContentPhocaDownload extends JPlugin
 											$buttonPl->optionsimg = 'data-bs-type="image"';
 											//$bootstrapModal = PhocaDownloadRenderFront::bootstrapModalHtml('phModalPlay' , Text::_('COM_PHOCADOWNLOAD_PLAY'));
 
-											if ($renderedBootstrapModal == 0) {
+											if ((int)$this->_rendered_bs_modal < 2) {
 												PhocaDownloadRenderFront::renderMainJs();
 												//PhocaDownloadRenderFront::renderBootstrapModalJs('.pd-modal-button');
 
@@ -539,7 +557,9 @@ class plgContentPhocaDownload extends JPlugin
 												$d          = [];
 												$d['t']     = [];
 												$bootstrapModal = $layoutCM->render($d);
+												$output .= $bootstrapModal;
 												$renderedBootstrapModal = 1;
+												$this->_setRenderedBsModal();
 											}
 
 										/*} else {
@@ -562,7 +582,7 @@ class plgContentPhocaDownload extends JPlugin
 									$fileExt	= '';
 									$filePath	= PhocaDownloadPath::getPathSet('fileplay');
 
-									$filePath	= str_replace ( '../', JURI::base(true).'/', $filePath['orig_rel_ds']);
+									$filePath	= str_replace ( '../', Uri::base(true).'/', $filePath['orig_rel_ds']);
 									if (isset($item->filename_play) && $item->filename_play != '') {
 										$fileExt = PhocaDownloadFile::getExtension($item->filename_play);
 
@@ -607,7 +627,7 @@ class plgContentPhocaDownload extends JPlugin
 						// Bootstrap
 						//$output .= '<a class="pd-bs-modal-button" data-bs-toggle="modal" data-bs-target="#phModalPlay" data-type="'.$dataType.'" href="'.$playLink.'" ' . $buttonPlOptions . ' >'. $textOutput.'</a>';
 						// Bootstrap per main.js
-						$output .= '<a class="pd-bs-modal-button" data-type="'.$dataType.'" href="'.$playLink.'" ' . $buttonPlOptions . ' >'. $textOutput.'</a>';
+						$output .= '<a class="pd-bs-modal-button" data-type="'.$dataType.'" href="'.$playLink.'" ' . $buttonPlOptions . ' data-title="'.htmlspecialchars($item->title).'">'. $textOutput.'</a>';
 
 
 													if (isset($bootstrapModal) && $bootstrapModal != '') {
@@ -635,7 +655,7 @@ class plgContentPhocaDownload extends JPlugin
 										if ($fileExt == 'pdf' || $fileExt == 'jpeg' || $fileExt == 'jpg' || $fileExt == 'png' || $fileExt == 'gif') {
 
 											$filePath	= PhocaDownloadPath::getPathSet('filepreview');
-											$filePath	= str_replace ( '../', JURI::base(true).'/', $filePath['orig_rel_ds']);
+											$filePath	= str_replace ( '../', Uri::base(true).'/', $filePath['orig_rel_ds']);
 											$previewLink = $filePath . $item->filename_preview;
 											//$previewWindow 	= $paramsC->get( 'preview_popup_window', 0 );
 
@@ -652,7 +672,7 @@ class plgContentPhocaDownload extends JPlugin
 												//HTMLHelper::_('behavior.modal', 'a.modal-button');
 
 
-												if ($renderedBootstrapModal == 0) {
+												if ((int)$this->_rendered_bs_modal < 2) {
 													PhocaDownloadRenderFront::renderMainJs();
 													//PhocaDownloadRenderFront::renderBootstrapModalJs('.pd-modal-button');
 
@@ -660,7 +680,9 @@ class plgContentPhocaDownload extends JPlugin
 													$d          = [];
 													$d['t']     = [];
 													$bootstrapModal = $layoutCM->render($d);
+													$output .= $bootstrapModal;
 													$renderedBootstrapModal = 1;
+													$this->_setRenderedBsModal();
 												}
 
 												$document->addCustomTag( "<style type=\"text/css\"> \n"
@@ -702,12 +724,12 @@ class plgContentPhocaDownload extends JPlugin
 													$dataType = "document";
 													// Iframe - modal
 													//$output	.= '<a class="modal-button" href="'.$previewLink.'" rel="'. $buttonPr->options.'" >'. $textOutput.'</a>';
-													$output .= '<a class="pd-bs-modal-button" data-type="'.$dataType.'" href="'.$previewLink.'" ' . $buttonPr->options . ' >'. $textOutput.'</a>';
+													$output .= '<a class="pd-bs-modal-button" data-type="'.$dataType.'" href="'.$previewLink.'" ' . $buttonPr->options . ' data-title="'.htmlspecialchars($item->title).'">'. $textOutput.'</a>';
 												} else {
 													$dataType = "image";
 													// Image - modal
 													//$output	.= '<a class="modal-button" href="'.$previewLink.'" rel="'. $buttonPr->optionsimg.'" >'. $textOutput.'</a>';
-													$output .= '<a class="pd-bs-modal-button" data-type="'.$dataType.'" href="'.$previewLink.'" ' . $buttonPr->optionsimg . ' >'. $textOutput.'</a>';
+													$output .= '<a class="pd-bs-modal-button" data-type="'.$dataType.'" href="'.$previewLink.'" ' . $buttonPr->optionsimg . ' data-title="'.htmlspecialchars($item->title).'">'. $textOutput.'</a>';
 												}
 											}
 											$output	.= '</div></div>';
