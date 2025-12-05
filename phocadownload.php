@@ -25,6 +25,7 @@ class plgContentPhocaDownload extends CMSPlugin
 	public $_plugin_number = 0;
     public $_plugin_number_category_view = 0;
 	public $_rendered_bs_modal = 0;
+	protected $autoloadLanguage = true;
 
 
 	public function __construct(& $subject, $config) {
@@ -51,6 +52,7 @@ class plgContentPhocaDownload extends CMSPlugin
 		}
 
 		$app 	= Factory::getApplication();
+		$wa  = $app->getDocument()->getWebAssetManager();
 		$view	= $app->input->get('view');
 		if ($view == 'tag') { return; }
 
@@ -104,8 +106,10 @@ class plgContentPhocaDownload extends CMSPlugin
 		// Start if count_matches
 		if ($count_matches != 0) {
 
-			HTMLHelper::_('stylesheet', 'media/com_phocadownload/css/main/phocadownload.css', array('version' => 'auto'));
-			HTMLHelper::_('stylesheet', 'media/plg_content_phocadownload/css/phocadownload.css', array('version' => 'auto'));
+			$wa->registerAndUseStyle('com_phocadownload.phocadownload', 'media/com_phocadownload/css/main/phocadownload.css', array('version' => 'auto'));
+			$wa->registerAndUseStyle('plg_content_phocadownload.phocadownload', 'media/plg_content_phocadownload/css/phocadownload.css', array('version' => 'auto'));
+			//HTMLHelper::_('stylesheet', 'media/com_phocadownload/css/main/phocadownload.css', array('version' => 'auto'));
+			//HTMLHelper::_('stylesheet', 'media/plg_content_phocadownload/css/phocadownload.css', array('version' => 'auto'));
 
 			$l = new PhocaDownloadLayout();
 

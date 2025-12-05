@@ -79,7 +79,35 @@
 		<maintainer><![CDATA[ Phoca.cz ]]></maintainer>
 		<maintainerurl>https://www.phoca.cz/</maintainerurl>
 		<section>Updates</section>
-		<targetplatform name="joomla" version="(4|5)\.*"/>
+		<targetplatform name="joomla" version="5\.*"/>
+		<client>site</client>
+	</update>
+	<update>
+		<name><![CDATA[ Phoca Download Content Plugin ]]></name>
+		<description><![CDATA[ Phoca Download Content plugin is a Joomla! plugin which displays:
+- link to Phoca Download categories
+- link to Phoca Download files
+- files which can be previewed (e.g. PDF, images)
+- files which can be played (e.g. MP3, MP4, OGG, OGV)
+- YouTube videos
+
+ in article content. ]]></description>
+		<element>phocadownload</element>
+		<folder>content</folder>
+		<type>plugin</type>
+		<version>6.0.0</version>
+		<infourl title="Phoca Download Content Plugin 6.0.0">https://www.phoca.cz/</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaDownloadContentPlugin/releases/download/6.0.0/plg_content_phocadownload_v6.0.0.zip</downloadurl>
+		</downloads>
+		<sha512>ec87ee456782315e3793c6a00d3631dbdbd8f613b47987bbd0f2c6bac76e33e6dc0aeb38a101fb39725187f70a892c3e8ea14ffeb99043e502f8a7479dc64ddd</sha512>
+		<tags>
+			<tag>stable</tag>
+		</tags>
+		<maintainer><![CDATA[ Phoca.cz ]]></maintainer>
+		<maintainerurl>https://www.phoca.cz/</maintainerurl>
+		<section>Updates</section>
+		<targetplatform name="joomla" version="(5|6)\.*"/>
 		<client>site</client>
 	</update>
 </updates>
